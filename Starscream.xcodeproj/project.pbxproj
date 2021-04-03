@@ -36,6 +36,7 @@
 		8A906E3F2208C7E80015057D /* WSCompression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A906E3E2208C7E80015057D /* WSCompression.swift */; };
 		8ABD4470224C036A00FB8370 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABD446F224C036A00FB8370 /* Data+Extensions.swift */; };
 		BBB5ABE8215E2217005B48B6 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBB5ABE4215E2217005B48B6 /* WebSocket.swift */; };
+		D4DC8F3426189377009966FD /* StreamTaskTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DC8F3326189377009966FD /* StreamTaskTransport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		8A906E3E2208C7E80015057D /* WSCompression.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WSCompression.swift; path = Compression/WSCompression.swift; sourceTree = "<group>"; };
 		8ABD446F224C036A00FB8370 /* Data+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
 		BBB5ABE4215E2217005B48B6 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = WebSocket.swift; path = Starscream/WebSocket.swift; sourceTree = "<group>"; tabWidth = 4; };
+		D4DC8F3326189377009966FD /* StreamTaskTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StreamTaskTransport.swift; path = Transport/StreamTaskTransport.swift; sourceTree = "<group>"; };
 		D88EAF811ED4DFD3004FE2C3 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		D88EAF831ED4E7D8004FE2C3 /* CompressionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompressionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -202,6 +204,7 @@
 				8A7A718721F8E1490061166D /* Transport.swift */,
 				8A7A718921F8E23C0061166D /* TCPTransport.swift */,
 				8A7A718B21F8F9790061166D /* FoundationTransport.swift */,
+				D4DC8F3326189377009966FD /* StreamTaskTransport.swift */,
 			);
 			name = Transport;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				8A906E3D2208BD9B0015057D /* Compression.swift in Sources */,
 				8A906E3F2208C7E80015057D /* WSCompression.swift in Sources */,
 				5C7CB5A722B59ABA006AF81B /* NativeEngine.swift in Sources */,
+				D4DC8F3426189377009966FD /* StreamTaskTransport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
