@@ -27,6 +27,7 @@ class ViewController: UIViewController, WebSocketDelegate {
     var socket: WebSocket!
     var isConnected = false
     let server = WebSocketServer()
+    var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +45,7 @@ class ViewController: UIViewController, WebSocketDelegate {
 //            }
 //        }
         //https://echo.websocket.org
-        var request = URLRequest(url: URL(string: "http://localhost:8080")!) //https://localhost:8080
+        var request = URLRequest(url: URL(string: "http://123.56.13.45:8080")!) //https://localhost:8080
         request.timeoutInterval = 5
         socket = WebSocket(request: request)
         socket.delegate = self
@@ -57,6 +58,9 @@ class ViewController: UIViewController, WebSocketDelegate {
         case .connected(let headers):
             isConnected = true
             print("websocket is connected: \(headers)")
+            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self](timer) in
+                self?.socket.write(string: "t:\(Date().timeIntervalSince1970)")
+            })
         case .disconnected(let reason, let code):
             isConnected = false
             print("websocket is disconnected: \(reason) with code: \(code)")
@@ -102,6 +106,7 @@ class ViewController: UIViewController, WebSocketDelegate {
         if isConnected {
             sender.title = "Connect"
             socket.disconnect()
+            self.timer = nil
         } else {
             sender.title = "Disconnect"
             socket.connect()

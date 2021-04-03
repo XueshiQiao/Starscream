@@ -26,10 +26,13 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
                             
     var window: UIWindow?
-
+    var networkMonitor: NetworkMonitor = NetworkMonitor()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        networkMonitor.monitor { (array) in
+            
+        }
         return true
     }
 
