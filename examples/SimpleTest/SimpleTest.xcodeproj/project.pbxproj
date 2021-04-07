@@ -14,6 +14,8 @@
 		6B76EA9D19DB0BE600E49C70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C765AE4199A6DAA003D9110 /* Main.storyboard */; };
 		6B76EAA119DB0DAF00E49C70 /* Starscream.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6B3E7A0E19D48D00006071F7 /* Starscream.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D40B81E82618AC8E00E76BF5 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40B81E72618AC8E00E76BF5 /* NetworkMonitor.swift */; };
+		D4C8ACDA2618D11900670936 /* Test.m in Sources */ = {isa = PBXBuildFile; fileRef = D4C8ACD92618D11900670936 /* Test.m */; };
+		D4C8ACDD2618D49C00670936 /* fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = D4C8ACDC2618D49C00670936 /* fishhook.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,12 @@
 		6B3E7A0819D48D00006071F7 /* Starscream.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Starscream.xcodeproj; path = ../../Starscream.xcodeproj; sourceTree = "<group>"; };
 		D40B81E626189C8300E76BF5 /* SimpleTest.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SimpleTest.entitlements; sourceTree = "<group>"; };
 		D40B81E72618AC8E00E76BF5 /* NetworkMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		D4C8ACD52618D0D500670936 /* NWSystemPathMonitor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NWSystemPathMonitor.h; sourceTree = "<group>"; };
+		D4C8ACD72618D11900670936 /* SimpleTest-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleTest-Bridging-Header.h"; sourceTree = "<group>"; };
+		D4C8ACD82618D11900670936 /* Test.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Test.h; sourceTree = "<group>"; };
+		D4C8ACD92618D11900670936 /* Test.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Test.m; sourceTree = "<group>"; };
+		D4C8ACDB2618D49C00670936 /* fishhook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fishhook.h; sourceTree = "<group>"; };
+		D4C8ACDC2618D49C00670936 /* fishhook.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = fishhook.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +88,15 @@
 		5C765AD2199A6DAA003D9110 = {
 			isa = PBXGroup;
 			children = (
+				D4C8ACDB2618D49C00670936 /* fishhook.h */,
+				D4C8ACDC2618D49C00670936 /* fishhook.c */,
+				D4C8ACD82618D11900670936 /* Test.h */,
+				D4C8ACD92618D11900670936 /* Test.m */,
+				D4C8ACD52618D0D500670936 /* NWSystemPathMonitor.h */,
 				5C765ADD199A6DAA003D9110 /* SimpleTest */,
 				5C765ADC199A6DAA003D9110 /* Products */,
 				6B3E7A0819D48D00006071F7 /* Starscream.xcodeproj */,
+				D4C8ACD72618D11900670936 /* SimpleTest-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -160,7 +174,7 @@
 					5C765ADA199A6DAA003D9110 = {
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = Y4E69MK58Q;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -223,6 +237,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C765AE3199A6DAA003D9110 /* ViewController.swift in Sources */,
+				D4C8ACDD2618D49C00670936 /* fishhook.c in Sources */,
+				D4C8ACDA2618D11900670936 /* Test.m in Sources */,
 				D40B81E82618AC8E00E76BF5 /* NetworkMonitor.swift in Sources */,
 				5C765AE1199A6DAA003D9110 /* AppDelegate.swift in Sources */,
 			);
@@ -360,6 +376,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SimpleTest/SimpleTest.entitlements;
 				DEVELOPMENT_TEAM = Y4E69MK58Q;
 				INFOPLIST_FILE = SimpleTest/Info.plist;
@@ -367,6 +384,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaochang.starscream;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SimpleTest-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -376,6 +395,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = SimpleTest/SimpleTest.entitlements;
 				DEVELOPMENT_TEAM = Y4E69MK58Q;
 				INFOPLIST_FILE = SimpleTest/Info.plist;
@@ -383,6 +403,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.xiaochang.starscream;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SimpleTest-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

@@ -19,15 +19,18 @@ import Network
         NSLog("start update")
         monitor.pathUpdateHandler = { [weak self] path in
             let availbaleInterfaceTypes = path.availableInterfaces.map { (interface) -> String in
-                return "String(describing: interface.type)"
+                return "path status: \(path.status), expensive: \(path.isExpensive),  interface: name: \(interface.name), type: \(String(describing: interface.type)), index: \(interface.index)"
             }
             NSLog("availbaleInterfaceTypes: \(availbaleInterfaceTypes)")
 
+            let current = self?.monitor.currentPath
+            print("current path: \(current)")
+            
             //只检查一次，检查完之后就退出
 //            self?.monitor.cancel()
 //            completion(availbaleInterfaceTypes)
         }
-
+        
         monitor.start(queue: queue)
     }
 }

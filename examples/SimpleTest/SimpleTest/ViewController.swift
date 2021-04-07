@@ -45,11 +45,22 @@ class ViewController: UIViewController, WebSocketDelegate {
 //            }
 //        }
         //https://echo.websocket.org
-        var request = URLRequest(url: URL(string: "http://123.56.13.45:8080")!) //https://localhost:8080
+//        var request = URLRequest(url: URL(string: "http://123.56.13.45:8080")!) //https://localhost:8080
+//        var request = URLRequest(url: URL(string: "https://123.56.13.45:8080")!) 
+        
+        var request = URLRequest(url: URL(string: "wss://echo.websocket.org")!)
+
         request.timeoutInterval = 5
         socket = WebSocket(request: request)
         socket.delegate = self
         socket.connect()
+        
+        DispatchQueue.global().asyncAfter(deadline: .now()+5) {
+//            let a = NWSystemPathMonitor.shared()?.fallbackWatcher
+//            let b = NWSystemPathMonitor.shared()?.mptcpWatcher
+//            let c = NWSystemPathMonitor.shared()?.isWiFiPrimary
+            print("hello")
+        }
     }
     
     // MARK: - WebSocketDelegate

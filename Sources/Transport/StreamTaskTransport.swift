@@ -39,7 +39,7 @@ class StreamTaskTransport: NSObject, Transport, URLSessionStreamDelegate {
         self.isTLS = parts.isTLS
 
         let urlSessionConfiguration: URLSessionConfiguration = URLSessionConfiguration.default
-        urlSessionConfiguration.multipathServiceType = multipathServiceType
+        urlSessionConfiguration.multipathServiceType = .handover//multipathServiceType
         urlSession = URLSession(configuration: urlSessionConfiguration, delegate: self, delegateQueue: nil)
         streamTask = urlSession?.streamTask(withHostName: parts.host, port: parts.port)
         streamTask?.resume()
@@ -70,6 +70,8 @@ class StreamTaskTransport: NSObject, Transport, URLSessionStreamDelegate {
     
     func disconnect() {
         self.streamTask?.cancel()
+        self.streamTask?.closeRead()
+        self.streamTask?.closeWrite()
     }
     
     func write(data: Data, completion: @escaping ((Error?) -> ())) {

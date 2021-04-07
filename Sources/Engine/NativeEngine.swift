@@ -18,7 +18,9 @@ public class NativeEngine: NSObject, Engine, URLSessionDataDelegate, URLSessionW
     }
 
     public func start(request: URLRequest) {
-        let session = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: nil)
+        let config = URLSessionConfiguration.default
+        config.multipathServiceType = .handover
+        let session = URLSession(configuration: config, delegate: self, delegateQueue: nil)
         task = session.webSocketTask(with: request)
         doRead()
         task?.resume()
@@ -92,5 +94,11 @@ public class NativeEngine: NSObject, Engine, URLSessionDataDelegate, URLSessionW
             r = String(data: d, encoding: .utf8) ?? ""
         }
         broadcast(event: .disconnected(r, UInt16(closeCode.rawValue)))
+    }
+    
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+            //[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(.useCredential, credential)
     }
 }

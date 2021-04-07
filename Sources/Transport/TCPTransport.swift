@@ -77,6 +77,8 @@ public class TCPTransport: Transport {
             }, queue)
         }
         let parameters = NWParameters(tls: tlsOptions, tcp: options)
+        parameters.multipathServiceType = .handover
+        
         let conn = NWConnection(host: NWEndpoint.Host.name(parts.host, nil), port: NWEndpoint.Port(rawValue: UInt16(parts.port))!, using: parameters)
         connection = conn
         start()
