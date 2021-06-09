@@ -24,7 +24,7 @@ import Network
             NSLog("availbaleInterfaceTypes: \(availbaleInterfaceTypes)")
 
             let current = self?.monitor.currentPath
-            print("current path: \(current)")
+            print("current path: \(String(describing: current))")
             
             //只检查一次，检查完之后就退出
 //            self?.monitor.cancel()

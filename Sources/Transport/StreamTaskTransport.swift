@@ -39,7 +39,7 @@ class StreamTaskTransport: NSObject, Transport, URLSessionStreamDelegate {
         self.isTLS = parts.isTLS
 
         let urlSessionConfiguration: URLSessionConfiguration = URLSessionConfiguration.default
-        urlSessionConfiguration.multipathServiceType = .handover//multipathServiceType
+        urlSessionConfiguration.multipathServiceType = .interactive //.handover//multipathServiceType
         urlSession = URLSession(configuration: urlSessionConfiguration, delegate: self, delegateQueue: nil)
         streamTask = urlSession?.streamTask(withHostName: parts.host, port: parts.port)
         streamTask?.resume()
@@ -50,9 +50,9 @@ class StreamTaskTransport: NSObject, Transport, URLSessionStreamDelegate {
     
     private func readLoop() {
         queue.async {
-            self.streamTask?.readData(ofMinLength: 1, maxLength: 10, timeout: 0, completionHandler: { [weak self](data, eof, error) in
+            self.streamTask?.readData(ofMinLength: 1, maxLength: 100, timeout: 0, completionHandler: { [weak self](data, eof, error) in
                 if let data = data {
-                    print("=====receive data: \(String(data: data, encoding: .utf8) ?? "")")
+                    print("=====transport receive data(\(data.count) bytes): \(String(data: data, encoding: .utf8) ?? "")")
                     self?.delegate?.connectionChanged(state: .receive(data))
                     self?.readLoop()
                 }
@@ -76,7 +76,7 @@ class StreamTaskTransport: NSObject, Transport, URLSessionStreamDelegate {
     
     func write(data: Data, completion: @escaping ((Error?) -> ())) {
         self.streamTask?.write(data, timeout: 10, completionHandler: { (error) in
-            print("======write completed, error: \(String(describing: error))")
+            print("======transport write completed, error: \(String(describing: error))")
             completion(error)
 
             if let error = error {
@@ -93,32 +93,32 @@ class StreamTaskTransport: NSObject, Transport, URLSessionStreamDelegate {
     
     //MARK: - URLSessionStreamDelegate
     func urlSession(_ session: URLSession, didBecomeInvalidWithError error: Error?) {
-        print("=========didBecomeInvalidWithError")
+        print("=========transport delegate didBecomeInvalidWithError")
     }
 
     
     func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        print("========= didReceive challenge")
+        print("=========transport delegate  didReceive challenge")
 
     }
     //MARK: - URLSessionStreamDelegate
     func urlSession(_ session: URLSession, readClosedFor streamTask: URLSessionStreamTask) {
-        print("=========readClosedFor streamTask")
+        print("=========transport delegate readClosedFor streamTask")
 
     }
     
     func urlSession(_ session: URLSession, writeClosedFor streamTask: URLSessionStreamTask) {
-        print("=========writeClosedFor streamTask")
+        print("=========transport delegate writeClosedFor streamTask")
 
     }
     
     func urlSession(_ session: URLSession, betterRouteDiscoveredFor streamTask: URLSessionStreamTask) {
-        print("=========betterRouteDiscoveredFor streamTask")
+        print("=========transport delegate betterRouteDiscoveredFor streamTask")
 
     }
     
     func urlSession(_ session: URLSession, streamTask: URLSessionStreamTask, didBecome inputStream: InputStream, outputStream: OutputStream) {
-        print("=========streamTask: URLSessionStreamTask, didBecome inputStream: InputStream, outputStream")
+        print("=========transport delegate streamTask: URLSessionStreamTask, didBecome inputStream: InputStream, outputStream")
 
     }
 

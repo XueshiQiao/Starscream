@@ -25,7 +25,16 @@ import Starscream
 
 class ViewController: UIViewController, WebSocketDelegate {
     var socket: WebSocket!
-    var isConnected = false
+    @IBOutlet weak var connectButton: UIBarButtonItem!
+    var isConnected = false {
+        didSet {
+            if isConnected {
+                connectButton.title = "Disconnect"
+            } else {
+                connectButton.title = "Connect"
+            }
+        }
+    }
     let server = WebSocketServer()
     var timer: Timer?
     
@@ -45,10 +54,10 @@ class ViewController: UIViewController, WebSocketDelegate {
 //            }
 //        }
         //https://echo.websocket.org
-//        var request = URLRequest(url: URL(string: "http://123.56.13.45:8080")!) //https://localhost:8080
+        var request = URLRequest(url: URL(string: "http://123.56.13.45:8080")!) //https://localhost:8080
 //        var request = URLRequest(url: URL(string: "https://123.56.13.45:8080")!) 
         
-        var request = URLRequest(url: URL(string: "wss://echo.websocket.org")!)
+//        var request = URLRequest(url: URL(string: "wss://echo.websocket.org")!)
 
         request.timeoutInterval = 5
         socket = WebSocket(request: request)
@@ -59,7 +68,7 @@ class ViewController: UIViewController, WebSocketDelegate {
 //            let a = NWSystemPathMonitor.shared()?.fallbackWatcher
 //            let b = NWSystemPathMonitor.shared()?.mptcpWatcher
 //            let c = NWSystemPathMonitor.shared()?.isWiFiPrimary
-            print("hello")
+//            print("hello")
         }
     }
     
@@ -68,28 +77,35 @@ class ViewController: UIViewController, WebSocketDelegate {
         switch event {
         case .connected(let headers):
             isConnected = true
-            print("websocket is connected: \(headers)")
-            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self](timer) in
-                self?.socket.write(string: "t:\(Date().timeIntervalSince1970)")
-            })
+            print("websocket Received connected: \(headers)")
+            self.write(text: "client: connected")
+//            self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { [weak self](timer) in
+//                self?.socket.write(string: "t:\(Date().timeIntervalSince1970)")
+//            })
         case .disconnected(let reason, let code):
             isConnected = false
-            print("websocket is disconnected: \(reason) with code: \(code)")
+            print("websocket Received disconnected: \(reason) with code: \(code)")
         case .text(let string):
-            print("Received text: \(string)")
+            print("websocket Received text: \(string)")
         case .binary(let data):
-            print("Received data: \(data.count)")
-        case .ping(_):
+            print("websocket Received data: \(data.count)")
+        case .ping(let data):
+            print("websocket Received ping, datasize: \(String(describing: data?.count))")
             break
-        case .pong(_):
+        case .pong(let data):
+            print("websocket Received pong, datasize: \(String(describing: data?.count))")
             break
-        case .viabilityChanged(_):
+        case .viabilityChanged(let changed):
+            print("websocket Received viabilityChanged \(changed)")
             break
-        case .reconnectSuggested(_):
+        case .reconnectSuggested(let suggested):
+            print("websocket Received reconnectSuggested: \(suggested)")
             break
         case .cancelled:
+            print("websocket Received cancelled")
             isConnected = false
         case .error(let error):
+            print("websocket Received error: \(String(describing: error))")
             isConnected = false
             handleError(error)
         }
@@ -108,20 +124,28 @@ class ViewController: UIViewController, WebSocketDelegate {
     // MARK: Write Text Action
     
     @IBAction func writeText(_ sender: UIBarButtonItem) {
-        socket.write(string: "hello there!")
+        write(text: "button text")
+    }
+    
+    func write(text: String) {
+        let dataFormatter = DateFormatter()
+        dataFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        socket.write(string: "\(text) @ \(dataFormatter.string(from: Date()))")
     }
     
     // MARK: Disconnect Action
     
     @IBAction func disconnect(_ sender: UIBarButtonItem) {
         if isConnected {
-            sender.title = "Connect"
             socket.disconnect()
             self.timer = nil
         } else {
-            sender.title = "Disconnect"
             socket.connect()
         }
+    }
+    
+    @IBAction func ping(_ sender: Any) {
+        socket.write(ping: Data())
     }
     
 }
